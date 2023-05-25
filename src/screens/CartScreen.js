@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Row, ListGroup, Image, Form, Button, Card, Col, ListGroupItem } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
-import { addToCart } from '../actions/cartActions'
+import { addToCart, removeFromCart } from '../actions/cartActions'
 
 const CartScreen = ({ match, location, history}) => {
     const productId = match.params.id
@@ -21,11 +21,11 @@ const CartScreen = ({ match, location, history}) => {
     }, [dispatch, productId, qty])
 
     const removeFromCartHandler = (id) => {
-        console.log('remove')
+        dispatch(removeFromCart(id))
     }
 
     const checkoutHandler = () => {
-        console.log('checkout')
+        history.push('/login?redirect=shipping')
     }
 
     return (
@@ -78,8 +78,7 @@ const CartScreen = ({ match, location, history}) => {
                          .toFixed(2)}
                     </ListGroupItem>
                     <ListGroupItem>
-                        <Button type='button' className='btn-block' disabled={cartItems.
-                        length === 0} onClick={checkoutHandler}>
+                        <Button type='button' className='btn-block' disabled={cartItems.length === 0} onClick={checkoutHandler}>
                             Passer au paiement...
                         </Button>
                     </ListGroupItem>
